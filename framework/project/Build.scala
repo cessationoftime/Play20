@@ -1,7 +1,7 @@
 import sbt._
 import Keys._
-import com.typesafe.tools.mima.plugin.MimaPlugin.mimaDefaultSettings
-import com.typesafe.tools.mima.plugin.MimaKeys.previousArtifact
+//import com.typesafe.tools.mima.plugin.MimaPlugin.mimaDefaultSettings
+//import com.typesafe.tools.mima.plugin.MimaKeys.previousArtifact
 
 object PlayBuild extends Build {
 
@@ -17,7 +17,7 @@ object PlayBuild extends Build {
         file("src/sbt-link"),
         settings = buildSettingsWithMIMA ++ Seq(
             autoScalaLibrary := false,
-            previousArtifact := Some("play" % {"play_"+previousScalaVersion} % previousVersion),
+           // previousArtifact := Some("play" % {"play_"+previousScalaVersion} % previousVersion),
             libraryDependencies := link,
             publishTo := Some(playRepository),
             javacOptions ++= Seq("-source","1.6","-target","1.6", "-encoding", "UTF-8"),
@@ -25,6 +25,7 @@ object PlayBuild extends Build {
             publishArtifact in packageDoc := buildWithDoc,
             publishArtifact in (Compile, packageSrc) := true,
             resolvers += typesafe,
+			resolvers += "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/releases/",
             crossPaths := false
         )
     ).settings(com.typesafe.sbtscalariform.ScalariformPlugin.defaultScalariformSettings: _*)
@@ -33,13 +34,14 @@ object PlayBuild extends Build {
         "Templates",
         file("src/templates"),
         settings = buildSettingsWithMIMA ++ Seq(
-            previousArtifact := Some("play" % {"templates_"+previousScalaVersion} % previousVersion),
+           // previousArtifact := Some("play" % {"templates_"+previousScalaVersion} % previousVersion),
             publishTo := Some(playRepository),
             libraryDependencies := templatesDependencies,
             publishArtifact in packageDoc := buildWithDoc,
             publishArtifact in (Compile, packageSrc) := true,
             scalacOptions ++= Seq("-encoding", "UTF-8", "-Xlint","-deprecation", "-unchecked"),
-            resolvers += typesafe
+            resolvers += typesafe,
+			resolvers += "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/releases/"
         )
     ).settings(com.typesafe.sbtscalariform.ScalariformPlugin.defaultScalariformSettings: _*)
 
@@ -49,13 +51,14 @@ object PlayBuild extends Build {
         settings = buildSettingsWithMIMA ++ Seq(
             scalaVersion := buildScalaVersionForSbt,
             scalaBinaryVersion  := CrossVersion.binaryScalaVersion(buildScalaVersionForSbt),
-            previousArtifact := Some("play" % {"routes-compiler_"+previousScalaVersion} % previousVersion),
+          //  previousArtifact := Some("play" % {"routes-compiler_"+previousScalaVersion} % previousVersion),
             publishTo := Some(playRepository),
             libraryDependencies := routersCompilerDependencies,
             publishArtifact in packageDoc := false,
             publishArtifact in (Compile, packageSrc) := false,
             scalacOptions ++= Seq("-encoding", "UTF-8", "-Xlint","-deprecation", "-unchecked"),
-            resolvers += typesafe
+            resolvers += typesafe,
+			resolvers += "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/releases/"
         )
     ).settings(com.typesafe.sbtscalariform.ScalariformPlugin.defaultScalariformSettings: _*)
 
@@ -65,14 +68,15 @@ object PlayBuild extends Build {
         settings = buildSettingsWithMIMA ++ Seq(
             scalaVersion := buildScalaVersionForSbt,
             scalaBinaryVersion  := CrossVersion.binaryScalaVersion(buildScalaVersionForSbt),
-            previousArtifact := Some("play" % {"templates-compiler_"+previousScalaVersion} % previousVersion),
+           // previousArtifact := Some("play" % {"templates-compiler_"+previousScalaVersion} % previousVersion),
             publishTo := Some(playRepository),
             libraryDependencies := templatesCompilerDependencies,
             publishArtifact in packageDoc := false,
             publishArtifact in (Compile, packageSrc) := false,
             unmanagedJars in Compile <+= (baseDirectory) map { b => compilerJar(b / "../..") },
             scalacOptions ++= Seq("-encoding", "UTF-8", "-Xlint","-deprecation", "-unchecked"),
-            resolvers += typesafe
+            resolvers += typesafe,
+			resolvers += "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/releases/"
         )
     ).settings(com.typesafe.sbtscalariform.ScalariformPlugin.defaultScalariformSettings: _*)
 
@@ -80,7 +84,7 @@ object PlayBuild extends Build {
         "Anorm",
         file("src/anorm"),
         settings = buildSettingsWithMIMA ++ Seq(
-            previousArtifact := Some("play" % {"anorm_"+previousScalaVersion} % previousVersion),
+          //  previousArtifact := Some("play" % {"anorm_"+previousScalaVersion} % previousVersion),
             publishTo := Some(playRepository),
             scalacOptions ++= Seq("-encoding", "UTF-8", "-Xlint","-deprecation", "-unchecked"),
             publishArtifact in packageDoc := buildWithDoc,
@@ -92,7 +96,7 @@ object PlayBuild extends Build {
         "Play-Iteratees",
         file("src/iteratees"),
         settings = buildSettingsWithMIMA ++ Seq(
-            previousArtifact := Some("play" % {"play-iteratees_"+previousScalaVersion} % previousVersion),
+          //  previousArtifact := Some("play" % {"play-iteratees_"+previousScalaVersion} % previousVersion),
             libraryDependencies := iterateesDependencies,
             publishTo := Some(playRepository),
             scalacOptions ++= Seq("-encoding", "UTF-8", "-Xlint","-deprecation", "-unchecked"),
@@ -106,7 +110,7 @@ object PlayBuild extends Build {
         file("src/play-exceptions"),
         settings = buildSettingsWithMIMA ++ Seq(
             autoScalaLibrary := false,
-            previousArtifact := Some("play" % {"play-exceptions"+previousScalaVersion} % previousVersion),
+          //  previousArtifact := Some("play" % {"play-exceptions"+previousScalaVersion} % previousVersion),
             publishTo := Some(playRepository),
             javacOptions ++= Seq("-source","1.6","-target","1.6", "-encoding", "UTF-8"),
             javacOptions in doc := Seq("-source", "1.6"),
@@ -120,7 +124,7 @@ object PlayBuild extends Build {
         "Play",
         file("src/play"),
         settings = buildSettingsWithMIMA ++ Seq(
-            previousArtifact := Some("play" % {"play_"+previousScalaVersion} % previousVersion),
+         //   previousArtifact := Some("play" % {"play_"+previousScalaVersion} % previousVersion),
             libraryDependencies := runtime,
             sourceGenerators in Compile <+= sourceManaged in Compile map PlayVersion,
             publishTo := Some(playRepository),
@@ -130,6 +134,7 @@ object PlayBuild extends Build {
             publishArtifact in packageDoc := buildWithDoc,
             publishArtifact in (Compile, packageSrc) := true,
             resolvers += typesafe,
+			resolvers += "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/releases/",
             sourceGenerators in Compile <+= (dependencyClasspath in TemplatesCompilerProject in Runtime, packageBin in TemplatesCompilerProject in Compile, scalaSource in Compile, sourceManaged in Compile, streams) map ScalaTemplates
         )
     ).settings(com.typesafe.sbtscalariform.ScalariformPlugin.defaultScalariformSettings: _*)
@@ -139,7 +144,7 @@ object PlayBuild extends Build {
         "Play-JDBC",
         file("src/play-jdbc"),
         settings = buildSettingsWithMIMA ++ Seq(
-            previousArtifact := Some("play" % {"play-jdbc_"+previousScalaVersion} % previousVersion),
+           // previousArtifact := Some("play" % {"play-jdbc_"+previousScalaVersion} % previousVersion),
             libraryDependencies := jdbcDeps,
             publishTo := Some(playRepository),
             scalacOptions ++= Seq("-encoding", "UTF-8", "-Xlint","-deprecation", "-unchecked"),
@@ -147,7 +152,8 @@ object PlayBuild extends Build {
             javacOptions in doc := Seq("-source", "1.6"),
             publishArtifact in packageDoc := buildWithDoc,
             publishArtifact in (Compile, packageSrc) := true,
-            resolvers += typesafe
+            resolvers += typesafe,
+			resolvers += "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/releases/"
         )
     ).settings(com.typesafe.sbtscalariform.ScalariformPlugin.defaultScalariformSettings: _*)
     .dependsOn(PlayJavaProject)
@@ -156,14 +162,15 @@ object PlayBuild extends Build {
         "Play-Java-JDBC",
         file("src/play-java-jdbc"),
         settings = buildSettingsWithMIMA ++ Seq(
-            previousArtifact := Some("play" % {"play-java-jdbc_"+previousScalaVersion} % previousVersion),
+           // previousArtifact := Some("play" % {"play-java-jdbc_"+previousScalaVersion} % previousVersion),
             publishTo := Some(playRepository),
             scalacOptions ++= Seq("-encoding", "UTF-8", "-Xlint","-deprecation", "-unchecked"),
             javacOptions ++= Seq("-source","1.6","-target","1.6", "-encoding", "UTF-8"),
             javacOptions in doc := Seq("-source", "1.6"),
             publishArtifact in packageDoc := buildWithDoc,
             publishArtifact in (Compile, packageSrc) := true,
-            resolvers += typesafe
+            resolvers += typesafe,
+			resolvers += "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/releases/"
         )
     ).settings(com.typesafe.sbtscalariform.ScalariformPlugin.defaultScalariformSettings: _*)
     .dependsOn(PlayJdbcProject)
@@ -172,7 +179,7 @@ object PlayBuild extends Build {
         "Play-Java-Ebean",
         file("src/play-java-ebean"),
         settings = buildSettingsWithMIMA ++ Seq(
-            previousArtifact := Some("play" % {"play-java-ebean_"+previousScalaVersion} % previousVersion),
+          //  previousArtifact := Some("play" % {"play-java-ebean_"+previousScalaVersion} % previousVersion),
             libraryDependencies := ebeanDeps ++ jpaDeps,
             publishTo := Some(playRepository),
             scalacOptions ++= Seq("-encoding", "UTF-8", "-Xlint","-deprecation", "-unchecked"),
@@ -181,6 +188,7 @@ object PlayBuild extends Build {
             publishArtifact in packageDoc := buildWithDoc,
             publishArtifact in (Compile, packageSrc) := true,
             resolvers += typesafe,
+			resolvers += "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/releases/",
             compile in (Compile) <<= (dependencyClasspath in Compile, compile in Compile, classDirectory in Compile) map { (deps,analysis,classes) =>
 
                 // Ebean (really hacky sorry)
@@ -205,7 +213,7 @@ object PlayBuild extends Build {
         "Play-Java-JPA",
         file("src/play-java-jpa"),
         settings = buildSettingsWithMIMA ++ Seq(
-            previousArtifact := Some("play" % {"play-java-jpa"+previousScalaVersion} % previousVersion),
+           // previousArtifact := Some("play" % {"play-java-jpa"+previousScalaVersion} % previousVersion),
             libraryDependencies := jpaDeps,
             publishTo := Some(playRepository),
             scalacOptions ++= Seq("-encoding", "UTF-8", "-Xlint","-deprecation", "-unchecked"),
@@ -213,7 +221,8 @@ object PlayBuild extends Build {
             javacOptions in doc := Seq("-source", "1.6"),
             publishArtifact in packageDoc := buildWithDoc,
             publishArtifact in (Compile, packageSrc) := true,
-            resolvers += typesafe
+            resolvers += typesafe,
+			resolvers += "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/releases/"
         )
     ).settings(com.typesafe.sbtscalariform.ScalariformPlugin.defaultScalariformSettings: _*)
     .dependsOn(PlayJavaJdbcProject) 
@@ -222,7 +231,7 @@ object PlayBuild extends Build {
         "Play-Java",
         file("src/play-java"),
         settings = buildSettingsWithMIMA ++ Seq(
-            previousArtifact := Some("play" % {"play-java_"+previousScalaVersion} % previousVersion),
+          //  previousArtifact := Some("play" % {"play-java_"+previousScalaVersion} % previousVersion),
             libraryDependencies := javaDeps,
             publishTo := Some(playRepository),
             scalacOptions ++= Seq("-encoding", "UTF-8", "-Xlint","-deprecation", "-unchecked"),
@@ -230,7 +239,8 @@ object PlayBuild extends Build {
             javacOptions in doc := Seq("-source", "1.6"),
             publishArtifact in packageDoc := buildWithDoc,
             publishArtifact in (Compile, packageSrc) := true,
-            resolvers += typesafe
+            resolvers += typesafe,
+			resolvers += "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/releases/"
         )
     ).settings(com.typesafe.sbtscalariform.ScalariformPlugin.defaultScalariformSettings: _*)
     .dependsOn(PlayProject)
@@ -239,7 +249,7 @@ object PlayBuild extends Build {
         "Play-Test",
         file("src/play-test"),
         settings = buildSettingsWithMIMA ++ Seq(
-            previousArtifact := Some("play" % {"play-test_"+previousScalaVersion} % previousVersion),
+         //   previousArtifact := Some("play" % {"play-test_"+previousScalaVersion} % previousVersion),
             libraryDependencies := testDependencies,
             publishTo := Some(playRepository),
             scalacOptions ++= Seq("-encoding", "UTF-8", "-Xlint","-deprecation", "-unchecked"),
@@ -248,6 +258,7 @@ object PlayBuild extends Build {
             publishArtifact in packageDoc := buildWithDoc,
             publishArtifact in (Compile, packageSrc) := true,
             resolvers += typesafe,
+			resolvers += "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/releases/",
             parallelExecution in Test := false
         )
     ).settings(com.typesafe.sbtscalariform.ScalariformPlugin.defaultScalariformSettings: _*).dependsOn(PlayProject)
@@ -268,7 +279,8 @@ object PlayBuild extends Build {
             scalacOptions ++= Seq("-encoding", "UTF-8", "-Xlint","-deprecation", "-unchecked"),
             publishArtifact in packageDoc := buildWithDoc,
             publishArtifact in (Compile, packageSrc) := true,
-            resolvers += typesafe
+            resolvers += typesafe,
+			resolvers += "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/releases/"
         )
     ).settings(com.typesafe.sbtscalariform.ScalariformPlugin.defaultScalariformSettings: _*)
     .dependsOn(SbtLinkProject, PlayExceptionsProject, RoutesCompilerProject, TemplatesCompilerProject, ConsoleProject)
@@ -287,7 +299,8 @@ object PlayBuild extends Build {
             scalacOptions ++= Seq("-encoding", "UTF-8", "-Xlint","-deprecation", "-unchecked"),
             publishArtifact in packageDoc := buildWithDoc,
             publishArtifact in (Compile, packageSrc) := true,
-            resolvers += typesafe
+            resolvers += typesafe,
+			resolvers += "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/releases/"
         )
     ).settings(com.typesafe.sbtscalariform.ScalariformPlugin.defaultScalariformSettings: _*)
 
@@ -333,7 +346,7 @@ object PlayBuild extends Build {
         val buildWithDoc      = Option(System.getProperty("generate.doc")).isDefined
         val previousVersion   = "2.0.3"
         val previousScalaVersion = "2.9.1"
-        val buildScalaVersion = "2.10.0-M7"
+        val buildScalaVersion = "2.10.0-RC1"
         val buildScalaVersionForSbt = "2.9.2"
         val buildSbtVersion   = "0.12.1"
         val buildSbtVersionBinaryCompatible = "0.12"
@@ -346,7 +359,7 @@ object PlayBuild extends Build {
             logManager          <<= extraLoggers(PlayLogManager.default),
             ivyLoggingLevel     := UpdateLogging.DownloadOnly
         )
-        val buildSettingsWithMIMA = buildSettings ++ mimaDefaultSettings
+        val buildSettingsWithMIMA = buildSettings //++ mimaDefaultSettings
     }
 
     object LocalSBT {
@@ -439,7 +452,7 @@ object PlayBuild extends Build {
             "javax.servlet"                     %    "javax.servlet-api"        %   "3.0.1",
             "javax.transaction"                 %    "jta"                      %   "1.1",
 
-            "org.specs2"                        %   "specs2_2.10.0-M7"          %   "1.12.1.1" %  "test"
+            "org.specs2"                        %   "specs2_2.10.0-RC1"          %   "1.12.2" %  "test"
         )
      
         val runtime = Seq(
@@ -454,11 +467,11 @@ object PlayBuild extends Build {
             
             "com.github.scala-incubator.io"     %%   "scala-io-file"            %   "0.4.1" exclude("javax.transaction", "jta"),
             
-            "com.typesafe.akka"                 %    "akka-actor_2.10.0-M7"     %   "2.1-M2",
-            "com.typesafe.akka"                 %    "akka-slf4j_2.10.0-M7"     %   "2.1-M2",
+            "com.typesafe.akka"                 %    "akka-actor_2.10.0-RC1"     %   "2.1.0-RC1",
+            "com.typesafe.akka"                 %    "akka-slf4j_2.10.0-RC1"     %   "2.1.0-RC1",
 
 
-            "org.scala-tools"                   %    "scala-stm_2.10.0-M7"      %   "0.6",
+            "org.scala-stm"                   %    "scala-stm_2.10.0-RC1"      %   "0.6",
 
             "joda-time"                         %    "joda-time"                %   "2.1",
             "org.joda"                          %    "joda-convert"             %   "1.2",
@@ -480,7 +493,7 @@ object PlayBuild extends Build {
 
             "javax.transaction"                 %    "jta"                      %   "1.1",
 
-            "org.specs2"                        %   "specs2_2.10.0-M7"          %   "1.12.1.1" %  "test",
+            "org.specs2"                        %   "specs2_2.10.0-RC1"          %   "1.12.2" %  "test",
 
             "org.mockito"                       %    "mockito-all"              %   "1.9.0"    %  "test",
             "com.novocode"                      %    "junit-interface"          %   "0.8"      %  "test",
@@ -499,7 +512,7 @@ object PlayBuild extends Build {
 
         val templatesCompilerDependencies = Seq(
             "com.github.scala-incubator.io"     %%   "scala-io-file"            %   "0.4.1" exclude("javax.transaction", "jta"),
-            "org.specs2"                        %%   "specs2"                   %   "1.12.1"    %   "test"
+            "org.specs2"                        %%   "specs2"                   %   "1.12.2"    %   "test"
               exclude("javax.transaction", "jta")
         )
         
@@ -540,18 +553,18 @@ object PlayBuild extends Build {
 
         val templatesDependencies = Seq(
             "com.github.scala-incubator.io"     %%   "scala-io-file"            %   "0.4.1" exclude("javax.transaction", "jta"),
-            "org.specs2"                        %    "specs2_2.10.0-M7"         %   "1.12.1.1"    %   "test"
+            "org.specs2"                        %    "specs2_2.10.0-RC1"         %   "1.12.2"    %   "test"
         )
 
         val iterateesDependencies = Seq(
-            "org.scala-tools"               %    "scala-stm_2.10.0-M7"      %   "0.6",
+            "org.scala-stm"               %    "scala-stm_2.10.0-RC1"      %   "0.6",
             "com.github.scala-incubator.io"     %%   "scala-io-file"            %   "0.4.1" exclude("javax.transaction", "jta")
         )
           
 
         val testDependencies = Seq(
             "junit"                             %    "junit-dep"                %   "4.10",
-            "org.specs2"                        %    "specs2_2.10.0-M7"         %   "1.12.1.1",
+            "org.specs2"                        %    "specs2_2.10.0-RC1"         %   "1.12.2",
             "com.novocode"                      %    "junit-interface"          %   "0.8" exclude ("junit", "junit"),
 
             "org.fluentlenium"                  %    "fluentlenium-festassert"  %   "0.7.3"
